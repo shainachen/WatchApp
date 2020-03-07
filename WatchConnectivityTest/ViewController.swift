@@ -19,6 +19,7 @@ class ViewController: UIViewController, WCSessionDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        //Setup phone to watch connection
         if (WCSession.isSupported()) {
             let session = WCSession.default
             session.delegate = self
@@ -58,7 +59,9 @@ class ViewController: UIViewController, WCSessionDelegate {
         if (WCSession.default.isReachable) {
             // Send data in dictionary form with sendMessage() from phone to watch
             let message = ["Message": message]
-            WCSession.default.sendMessage(message, replyHandler: nil)
+            WCSession.default.sendMessage(message, replyHandler: nil) { (error) in
+                print("Message sending error: ", error.localizedDescription)
+            }
         }
 
         // Update message rate limiting property
